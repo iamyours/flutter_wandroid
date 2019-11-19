@@ -39,11 +39,12 @@ class _ArticleItemState extends State<ArticleItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Constants.channel.invokeMethod("toWeb", item.link);
+        Navigator.of(context).pushNamed("web", arguments: item.link);
       },
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.only(right: 10,top:4),
+        color: MyColors.bgDark,
+        padding: EdgeInsets.only(right: 10, top: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -78,7 +79,10 @@ class _ArticleItemState extends State<ArticleItem> {
                   Expanded(
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text(item.niceDate,style: TextStyle(fontSize: 14,color: MyColors.textColor),),
+                      child: Text(
+                        item.niceDate,
+                        style: TextStyle(fontSize: 14, color: MyColors.textColor),
+                      ),
                     ),
                   )
                 ],

@@ -29,7 +29,8 @@ dependencies:
   flutter_swiper: 1.1.6
   shared_preferences: 0.5.4
   sqflite: 1.1.0
-  webview_flutter: 0.3.15+1
+  webview_flutter:
+    path: ../plugins/webview_flutter-0.3.15+1
   flutter_html: 0.8.2
 
 dev_dependencies:
@@ -50,6 +51,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/css/juejin/juejin.css
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
