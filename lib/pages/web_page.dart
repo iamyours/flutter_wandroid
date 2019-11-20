@@ -37,22 +37,25 @@ class _WebPageState extends State<WebPage> {
     var link = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyColors.bgDark,
+        backgroundColor: MyColors.readColor,
         title: Text("Web"),
       ),
-      body: WebView(
-        initialUrl: link,
-        javascriptMode: JavascriptMode.unrestricted,
-        debuggingEnabled: true,
-        onPageFinished: (url) {
-          print("finished:$url");
-        },
-        onProgressChanged: (int progress) {
-          print("progress:$progress%");
-        },
-        shouldInterceptRequest: _interceptRequest,
-        onWebViewCreated: (web) {},
-      ),
+      body: Container(
+        child: WebView(
+          initialUrl: link,
+          backgroundColor: MyColors.bgDark,
+          javascriptMode: JavascriptMode.unrestricted,
+          debuggingEnabled: true,
+          onPageFinished: (url) {
+            print("finished:$url");
+          },
+          onProgressChanged: (int progress) {
+            print("progress:$progress%");
+          },
+          shouldInterceptRequest: _interceptRequest,
+          onWebViewCreated: (web) {},
+        ),
+      )
     );
   }
 }

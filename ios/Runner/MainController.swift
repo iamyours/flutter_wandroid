@@ -18,7 +18,7 @@ class MainController: FlutterViewController {
     
     func initChannel(){
         
-        var channel = FlutterMethodChannel(name: "event", binaryMessenger: self.binaryMessenger)
+        let channel = FlutterMethodChannel(name: "event", binaryMessenger: self.binaryMessenger)
         channel.setMethodCallHandler { (method, FlutterResult) in
             print("call:"+method.method)
         }
