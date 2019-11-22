@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:iwebview_flutter/webview_flutter.dart';
 import '../utils/my_colors.dart';
 
 class WebPage extends StatefulWidget {
@@ -37,8 +37,7 @@ class _WebPageState extends State<WebPage> {
     var link = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyColors.readColor,
-        title: Text("Web"),
+        backgroundColor: MyColors.bgDark,
       ),
       body: Container(
         child: WebView(
