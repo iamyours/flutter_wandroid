@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _WebPageState extends State<WebPage> {
         ByteData data = await rootBundle.load("assets/css/juejin/juejin.css");
         Uint8List bytes = Uint8List.view(data.buffer);
         return Response("text/css", "utf-8", bytes);
-      }catch(e){
+      } catch (e) {
         print("=========e:$e");
       }
     }
@@ -32,29 +33,62 @@ class _WebPageState extends State<WebPage> {
     return Response("text/css", "utf-8", bytes);
   }
 
+  String title = "";
+  int offsetY = 0;
+  WebViewController _controller;
+  double progress = 0.0;
+
   @override
   Widget build(BuildContext context) {
     var link = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: MyColors.bgDark,
-      ),
-      body: Container(
-        child: WebView(
-          initialUrl: link,
+        appBar: AppBar(
           backgroundColor: MyColors.bgDark,
-          javascriptMode: JavascriptMode.unrestricted,
-          debuggingEnabled: true,
-          onPageFinished: (url) {
-            print("finished:$url");
-          },
-          onProgressChanged: (int progress) {
-            print("progress:$progress%");
-          },
-          shouldInterceptRequest: _interceptRequest,
-          onWebViewCreated: (web) {},
+          title: Text(
+            offsetY>20?title:"",
+            style: const TextStyle(color: MyColors.titleColor),
+          ),
         ),
-      )
-    );
+        body: Container(
+            child: Stack(
+          children: <Widget>[
+            WebView(
+              initialUrl: link,
+              backgroundColor: MyColors.bgDark,
+              javascriptMode: JavascriptMode.unrestricted,
+              debuggingEnabled: true,
+              onPageFinished: (url) async {
+                String _title = await _controller.getTitle();
+                setState(() {
+                  title = _title;
+                });
+              },
+              onScroll: (int x, int y) {
+                setState(() {
+                  offsetY = y;
+                });
+              },
+              onProgressChanged: (int p) {
+                setState(() {
+                  progress = p / 100.0;
+                });
+              },
+              shouldInterceptRequest: _interceptRequest,
+              onWebViewCreated: (controller) {
+                _controller = controller;
+              },
+            ),
+            Offstage(
+                offstage: progress == 1,
+                child: SizedBox(
+                  height: 1,
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    backgroundColor: MyColors.bgDark,
+                    valueColor: const AlwaysStoppedAnimation(MyColors.tabSelected),
+                  ),
+                ))
+          ],
+        )));
   }
 }

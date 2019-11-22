@@ -231,9 +231,9 @@ packages:
   iwebview_flutter:
     dependency: "direct main"
     description:
-      name: iwebview_flutter
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "../plugins/webview_flutter-0.3.15+1"
+      relative: true
+    source: path
     version: "0.1.2"
   js:
     dependency: transitive
