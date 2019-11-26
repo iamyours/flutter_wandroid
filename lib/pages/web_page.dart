@@ -15,14 +15,13 @@ class WebPage extends StatefulWidget {
 
 class _WebPageState extends State<WebPage> {
   Future<Response> _interceptRequest(String url) async {
+    if(link.contains("wanandroid.com")){//玩Android
+      
+    }
     if (url.startsWith("https://b-gold-cdn.xitu.io/v3/static/css/0") && url.endsWith(".css")) {
-      try {
-        ByteData data = await rootBundle.load("assets/css/juejin/juejin.css");
-        Uint8List bytes = Uint8List.view(data.buffer);
-        return Response("text/css", "utf-8", bytes);
-      } catch (e) {
-        print("=========e:$e");
-      }
+      ByteData data = await rootBundle.load("assets/css/juejin/juejin.css");
+      Uint8List bytes = Uint8List.view(data.buffer);
+      return Response("text/css", "utf-8", bytes);
     }
     return null;
   }
@@ -37,15 +36,16 @@ class _WebPageState extends State<WebPage> {
   int offsetY = 0;
   WebViewController _controller;
   double progress = 0.0;
+  String link;
 
   @override
   Widget build(BuildContext context) {
-    var link = ModalRoute.of(context).settings.arguments;
+    link = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: MyColors.bgDark,
           title: Text(
-            offsetY>20?title:"",
+            offsetY > 20 ? title : "",
             style: const TextStyle(color: MyColors.titleColor),
           ),
         ),

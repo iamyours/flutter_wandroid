@@ -87,10 +87,13 @@ tr{}
 	font-style: italic
 }
 
- .hljs-strong {
+.hljs-strong {
 	font-weight: 700
 }
 
- .hljs-link {
+.hljs-link {
 	text-decoration: underline
 }
+.follow-button{display:none!important;}
+.recommended-area{display:none;}
+.extension{display:none;}
