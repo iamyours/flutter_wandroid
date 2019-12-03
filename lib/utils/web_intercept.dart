@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/services.dart';
 import 'package:iwebview_flutter/webview_flutter.dart';
+import 'dart:convert' show utf8;
 
 class WebIntercept {
   static const String wan = "wanandroid.com";
@@ -37,7 +38,7 @@ class WebIntercept {
       }
     }
     if (link.startsWith(jianShu)) {
-      if (url.startsWith("https://www.jianshu.com/p")) {
+      if (url == link) {
         return wget(url);
       }
     }
@@ -64,10 +65,29 @@ class WebIntercept {
     return Response("text/css", "utf-8", bytes);
   }
 
+  static RegExp jianShuReg = RegExp(r"(<style data-vue-ssr-id=.*>)([^<]*?)(</style>)");
+  static RegExp bodyReg = RegExp(r"<body class=(.*?)>");
+  static String jianShuNightBody = "<body class=\"reader-night-mode normal-size\">";
+
   static Future<Response> wget(String url) async {
     dio.Dio d = dio.Dio();
-    dio.Response<List<int>> res = await d.get(url);
-    if (res.statusCode == 200) return Response("text/html", "utf-8", Uint8List.fromList(res.data));
+    d.options.headers["user-agent"] =
+        "Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3887.7 Mobile Safari/537.36";
+//    d.interceptors.add(dio.LogInterceptor(responseBody: true));
+    dio.Response<String> res = await d.get(url);
+    if (res.statusCode == 200) {
+      String data = res.data;
+      String jianShuCss = await rootBundle.loadString("assets/css/jianshu/jianshu.css");
+      data = data.replaceFirst(jianShuReg, "<style>$jianShuCss</style>");
+      data = data.replaceFirst(bodyReg, jianShuNightBody);
+      try {
+        Uint8List bytes = Uint8List.fromList(utf8.encode(data));
+        return Response("text/html", null, bytes);
+      } catch (e) {
+        print("eeeeeeeeee");
+        print(e);
+      }
+    }
     return null;
   }
 }

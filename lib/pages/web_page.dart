@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iwebview_flutter/webview_flutter.dart';
 import '../utils/my_colors.dart';
+import '../utils/web_intercept.dart';
 
 class WebPage extends StatefulWidget {
   @override
@@ -15,15 +16,7 @@ class WebPage extends StatefulWidget {
 
 class _WebPageState extends State<WebPage> {
   Future<Response> _interceptRequest(String url) async {
-    if(link.contains("wanandroid.com")){//玩Android
-      
-    }
-    if (url.startsWith("https://b-gold-cdn.xitu.io/v3/static/css/0") && url.endsWith(".css")) {
-      ByteData data = await rootBundle.load("assets/css/juejin/juejin.css");
-      Uint8List bytes = Uint8List.view(data.buffer);
-      return Response("text/css", "utf-8", bytes);
-    }
-    return null;
+    return WebIntercept.intercept(url, link);
   }
 
   Future<Response> loadResource(String path) async {

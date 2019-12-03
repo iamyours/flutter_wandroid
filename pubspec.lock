@@ -234,7 +234,7 @@ packages:
       path: "../plugins/webview_flutter-0.3.15+1"
       relative: true
     source: path
-    version: "0.1.2"
+    version: "0.1.4"
   js:
     dependency: transitive
     description:
