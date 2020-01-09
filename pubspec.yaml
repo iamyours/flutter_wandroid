@@ -29,8 +29,7 @@ dependencies:
   flutter_swiper: 1.1.6
   shared_preferences: 0.5.4
   sqflite: 1.1.0
-  iwebview_flutter:
-    path: ../plugins/webview_flutter-0.3.15+1
+  iwebview_flutter: 0.1.4
   flutter_html: 0.8.2
 
 dev_dependencies:
@@ -43,6 +42,8 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+module:
+  androidX: true
 flutter:
 
   # The following line ensures that the Material Icons font is
